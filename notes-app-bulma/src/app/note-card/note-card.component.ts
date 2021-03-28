@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { NotesService } from '../shared/notes.service';
 
 @Component({
   selector: 'app-note-card',
@@ -9,12 +10,13 @@ export class NoteCardComponent implements OnInit, AfterViewInit {
 
   @Input() title!: string;
   @Input() body!: string;
+  @Input() id!: number;
 
 
   @ViewChild('truncator') truncator!: ElementRef<HTMLElement>;
   @ViewChild('bodyText') bodyText!: ElementRef<HTMLElement>;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2, private notesService: NotesService) { }
 
   ngOnInit(): void {
   }
@@ -29,5 +31,9 @@ export class NoteCardComponent implements OnInit, AfterViewInit {
     } else {
       this.renderer.setStyle(this.truncator.nativeElement, 'display', 'none');
     }
+  }
+
+  delete() {
+    this.notesService.delete(this.id);
   }
 }

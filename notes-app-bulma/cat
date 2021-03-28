@@ -1,0 +1,11 @@
+* commit 64c17d8 (HEAD -> main)
+| Author: mdeppe <mtdeppe75@gmail.com>
+| Date:   Sun Mar 28 11:45:19 2021 -0400
+| 
+|     notes-app with bulma components and cool scss stylings. First page with header bar and some fake notes
+| 
+* commit 86dea1e (origin/main, origin/HEAD)
+  Author: Matt_Deppe <41688768+golden-mango@users.noreply.github.com>
+  Date:   Sat Mar 27 20:43:51 2021 -0400
+  
+      Initial commit

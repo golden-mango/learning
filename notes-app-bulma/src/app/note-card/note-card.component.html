@@ -1,5 +1,6 @@
 <div #container class="note-card-container">
 
+  <a [routerLink]="'' + id">
   <div class="note-card-content">
 
     <h1 class="note-card-title">{{ title }}</h1>
@@ -9,10 +10,11 @@
       <div #truncator class="fade-out-truncation">
       </div>
     </div>
-
   </div>
 
-  <div class="x-button">
+  </a>
+
+  <div class="x-button" (click)="delete()">
         <span class="icon">
           <i class="fas fa-gavel"></i>
         </span>
