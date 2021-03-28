@@ -1,0 +1,31 @@
+// Changing Bulma variables and adding global styles
+
+// Set your brand colors
+$purple: #a59ad7;
+$pink: #fe76c2;
+$blue: #37c7f2;
+$light-red: #fff3f3;
+$light: #fafcff;
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$primary: $purple;
+$link: $blue;
+
+// Update some of Bulma's component variables
+$body-background-color: $light;
+$control-border-width: 2px;
+$input-border-color: transparent;
+// by default bulma sets background of input elements to white
+$input-background-color: #f3f5fa;
+$input-shadow: none;
+
+// GLOBAL styles
+html,
+body {
+  height: 100%;
+
+  // default font-size
+  font-size: 18px !important;
+  overflow: hidden !important;
+}

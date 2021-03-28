@@ -1,0 +1,102 @@
+@import "../../main.scss";
+
+.note-card-container {
+  background: white;
+  // Needed so that the button will show up here
+  position: relative;
+  // Rounded edges
+  border-radius: 5px;
+  box-shadow: 0px 2px 15px 2px rgba(black, 0.0668);
+  transition: box-shadow 0.2s ease-out;
+
+  // Sass operator to nest hover styling in this class declaration here.
+  &:hover {
+    // handlike symbol
+    cursor: pointer;
+    // Overrides box shadow properties here
+    box-shadow: 0px 0px 0px 4px rgba(black, 0.068);
+
+    // when card is hovered over
+    .x-button {
+      opacity: 1;
+      // delay only occurs when we hover over the card, when we leave it immediately begins to fade out.
+      transition-delay: 0.35s;
+      transform: scale(1);
+    }
+  }
+
+  .note-card-content {
+    padding: 25px;
+
+    .note-card-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: $purple;
+    }
+
+    .note-card-body {
+      position: relative;
+      // max height before bein truncated
+      max-height: 80px;
+      overflow: hidden;
+
+      // text color
+      color: #555;
+
+      .fade-out-truncation {
+        position: absolute;
+        bottom: 0;
+        height: 50%;
+        width: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(white, 0) 0%,
+          rgba(white, 0.8) 50%,
+          white 100%
+        );
+        // allows to select the text that the gradient overlay hides.
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+.x-button {
+  // need to set position relative on parent element (the container)
+  position: absolute;
+
+  // 12 px from top;
+  top: 12px;
+
+  // 12 px from right
+  right: 12px;
+
+  height: 34px;
+  width: 34px;
+
+  background-color: $light-red;
+
+  border-radius: 4px;
+
+  .icon {
+    position: relative;
+    left: 4px;
+    top: 3px;
+  }
+  // hide button by default
+  opacity: 0;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  // zoom in when hovering over. First scale it to make it small then scale to normal when hovering over
+  transform: scale(0.35);
+
+  // change background color of button when we hover over it.
+  &:hover {
+    // Sass function
+    background-color: darken($light-red, 2%);
+  }
+
+  // on-click
+  &:active {
+    background-color: darken($light-red, 4%);
+  }
+}
