@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { NotesService } from '../shared/notes.service';
 
 @Component({
@@ -11,6 +11,7 @@ export class NoteCardComponent implements OnInit, AfterViewInit {
   @Input() title!: string;
   @Input() body!: string;
   @Input() id!: number;
+  @Output() deleted: EventEmitter<number> = new EventEmitter<number>();
 
 
   @ViewChild('truncator') truncator!: ElementRef<HTMLElement>;
@@ -34,6 +35,6 @@ export class NoteCardComponent implements OnInit, AfterViewInit {
   }
 
   delete() {
-    this.notesService.delete(this.id);
+    this.deleted.emit(this.id);
   }
 }

@@ -1,5 +1,5 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Note } from 'src/app/shared/note.model';
 import { NotesService } from 'src/app/shared/notes.service';
 
@@ -87,11 +87,81 @@ import { NotesService } from 'src/app/shared/notes.service';
 export class NotesListComponent implements OnInit {
 
   notes : Note[] = [];
+  filteredNotes: Note[] = [];
+  @ViewChild('searchInput') searchInput!: ElementRef;
 
   constructor(private notesService : NotesService) { }
 
   ngOnInit(): void {
     this.notes = this.notesService.getAll();
+    this.filteredNotes = this.notes;
+  }
+
+  filter(query: string|null): void {
+    if (!query) {
+      this.filteredNotes = this.notes;
+      return;
+    }
+
+    const lowerCasedQuery = query.toLowerCase().trim();
+    // split up the search query into individual words
+    const terms: string[] = lowerCasedQuery.split(' ');
+    // remove dups
+    const unqiueTerms = this.removeDuplicates(terms);
+    // get all relevant results into the allResults array
+    const noteSet = new Set<Note>();
+    unqiueTerms.forEach(term => {
+      this.relevantNotes(term, noteSet);
+    });
+    this.filteredNotes = this.sortByRelevance(unqiueTerms, Array.from(noteSet));
+  }
+
+  removeDuplicates(arr: any[]) : any[] {
+    const uniqueRes = new Set<any>();
+    arr.forEach((item: any) => {
+      uniqueRes.add(item);
+    })
+    return Array.from(uniqueRes);
+  }
+
+  // what is relevant algorithm
+  relevantNotes(query: string, alreadyFound: Set<Note>): void {
+    query = query.toLowerCase().trim();
+
+    this.notes.forEach(note => {
+      if (!alreadyFound.has(note) && note.body?.toLowerCase().includes(query)
+        || note.title.toLowerCase().includes(query)) {
+          alreadyFound.add(note);
+      }
+    });
+  }
+
+  // relevancy sorting algorithm
+  sortByRelevance(queryTerms: string[], results: Note[]): Note[] {
+    return results.sort((left, right) => this.occurrenceCount(right, queryTerms) - this.occurrenceCount(left, queryTerms));
+  }
+
+  occurrenceCount(note: Note, queryTerms: string[]): number {
+    // get number of occurrences in title text
+    let count = 0;
+    const titleText = note.title.toLowerCase().split(' ');
+    const bodyText = note.body.toLowerCase().split(' ');
+
+    const countOccurences =
+      (queryItem: string, textArr: string[]) => {
+
+        return textArr.map(item => Number(item === queryItem ? 1 : 0)).reduce((prev, curr) => prev + curr);
+      }
+
+    return queryTerms.map(term => countOccurences(term, titleText))
+      .reduce((prev, curr) => prev + curr)
+      + queryTerms.map(term => countOccurences(term, bodyText)).reduce((prev, curr) => prev + curr);
+  }
+
+  handleDelete(id: number) {
+    const origIndex = this.notes.indexOf(this.filteredNotes[id]);
+    this.notesService.delete(origIndex);
+    this.filter(this.searchInput.nativeElement.value);
   }
 
 }

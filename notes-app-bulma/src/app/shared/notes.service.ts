@@ -22,6 +22,10 @@ export class NotesService {
     return this.notes;
   }
 
+  setAll(notes: Note[]) {
+    this.notes = notes;
+  }
+
   add(note: Note): number {
     return this.notes.push(note) - 1;
   }
