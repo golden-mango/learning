@@ -29,3 +29,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 --------------------------------------------------
 
 This was mostly done to explore some of the bulma components, and get better at styling components with scss.
+
+note - some of the bulma variables, such as $green were not being overridden when applied to global styles. Or I wasn't assigning the correct
+variable (for instance, changing the value of $green so that the is-success button gets a different color).
+
+note - sometimes when deleting on search an odd animation occurs in which the deleted card is quickly added to and then removed again from the card list - I don't feel like investigating this.
